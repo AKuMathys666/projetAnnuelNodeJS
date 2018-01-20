@@ -22,7 +22,7 @@ module.exports = (server) => {
         project.creator = userId;
         createATeam(project);
 
-        return project.save()
+        project.save()
             .then(project => res.status(201).send(project))
             .catch(err => res.status(500).send(err));
 
@@ -45,6 +45,9 @@ module.exports = (server) => {
         function remove() {
             return Project.findByIdAndRemove(req.params.id);
         }
+        function ensureCreator(project) {
+            return project.creator.toString() === req.token.userId ? project : Promise.reject({code: 403, reason: 'not.allowed'});
+        }
     }
 
     function update(req, res) {
@@ -58,14 +61,14 @@ module.exports = (server) => {
         function update() {
             return Project.findByIdAndUpdate(req.params.id, req.body)
         }
+        function ensureCreator(project) {
+            return project.creator.toString() === req.token.userId ? project : Promise.reject({code: 403, reason: 'not.allowed'});
+        }
     }
 
     // Globals
     function findProject(req) {
         return Project.findById(req.params.id)
-    }
-    function ensureCreator(project) {
-        return project.creator.toString() === req.token.userId ? project : Promise.reject({code: 403, reason: 'not.allowed'});
     }
 
     function ensureExist(data) {

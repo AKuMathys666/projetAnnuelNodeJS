@@ -4,6 +4,5 @@ module.exports = (server) => {
         logger: require('./logger'),
         ensureBodyFields: require('./ensureBodyFields'),
         ensureAuthenticated: require('./ensureAuthenticated')(server),
-        ensureRights: require('./ensureRights')(server)
-    }
+        ensureRights: require('./ensureRights')}
 };

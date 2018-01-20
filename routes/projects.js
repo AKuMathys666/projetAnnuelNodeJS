@@ -12,6 +12,7 @@ module.exports = (server) => {
     router.post('/',
         server.middlewares.ensureAuthenticated,
         server.middlewares.bodyParser.json(),
+        server.middlewares.ensureBodyFields(['title']),
         server.controllers.projects.create);
 
     router.put('/:id',

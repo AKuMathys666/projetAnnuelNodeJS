@@ -19,7 +19,7 @@ const UserSchema = Schema({
     },
     password: {
         type: String,
-        required: true
+        select: false
     },
     role:{
         type: Schema.Types.ObjectId,

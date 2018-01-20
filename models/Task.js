@@ -6,9 +6,13 @@ const TaskSchema = Schema({
         type: String,
         required: true
     },
-    dueDate: {
+    startDate:{
         type: Date,
         required: true
+    },
+    endDate:{
+        type: Date,
+        required: false
     },
     owner: {
         type: Schema.Types.ObjectId,
@@ -17,6 +21,11 @@ const TaskSchema = Schema({
     project:{
         type: Schema.Types.ObjectId,
         ref: 'Project'
+    },
+    times:{
+        type: Number,
+        Required: false,
+        default: '0'
     }
 });
 

@@ -1,13 +1,14 @@
 module.exports = (server) => {
     const Team = server.models.Team;
     const User = server.models.User;
+    const Role = server.models.Role;
 
     return {
         list,
         update,
         addMember,
         removeMember,
-        //assignRole
+        assignRole
     };
 
     function list(req, res) {
@@ -84,6 +85,32 @@ module.exports = (server) => {
 
         function ensureExist(data) {
             return data ? data : Promise.reject({code: 422, reason: 'unprocessable.entities'});
+        }
+    }
+
+    function assignRole(req, res){
+        let team;
+        return User.findById(req.params.userId)
+            .then(ensureExist)
+            .then(assignRole)
+            .then(() => res.status(204).send())
+            .catch(err => res.status(err.code || 500).send(err.reason || err));
+
+        function assignRole(user){
+            user.role=req.params.roleId;
+            return user.save();
+        }
+
+        function findTeam(req){
+            return team.findById(req.params.teamId);
+        }
+
+        function ensureExist(data) {
+            return data ? data : Promise.reject({code: 422, reason: 'unprocessable.entities'});
+        }
+
+        function ensureIsMember(user) {
+            return team.members.some(member => member.toString() === user._id.toString()) ? user : Promise.reject({code: 403, reason: 'user.not.member'});
         }
     }
 };

@@ -2,6 +2,7 @@ const sha1 = require('sha1');
 
 module.exports = (server) => {
     const User = server.models.User;
+    const Role = server.models.Role;
 
     return {
         list,
@@ -35,7 +36,17 @@ module.exports = (server) => {
 
         function createUser() {
             User.create(req.body)
+                .then(assignRole)
                 .then(user => res.status(201).send(user));
+            function assignRole(user) {
+                return Role.find()
+                    .sort('-level')
+                    .then(roles => roles[0])
+                    .then(role => {
+                        user.role = role;
+                        return user.save();
+                    });
+            }
         }
     }
 

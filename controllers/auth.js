@@ -21,6 +21,8 @@ module.exports = (server) => {
 
         function findUser() {
             return User.findOne()
+                .select('+password')
+                .populate('role')
                 .where({email: email, password: password})
                 .exec()
         }
@@ -31,11 +33,12 @@ module.exports = (server) => {
 
         function createToken(user) {
             const token = {
-                userId: user._id.toString()
+                userId: user._id.toString(),
+                role : user.role
             };
 
             return new Promise((resolve, reject) => {
-                jwt.sign(token, server.config.salt, {expiresIn: 3600}, (err, encryptedToken) => {
+                jwt.sign(token, server.config.salt, {expiresIn: 86400}, (err, encryptedToken) => {
                     if (err)
                         return reject(err);
 
