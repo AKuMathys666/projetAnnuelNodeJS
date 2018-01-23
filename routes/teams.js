@@ -6,6 +6,9 @@ module.exports = (server) => {
         server.middlewares.ensureAuthenticated,
         server.controllers.teams.list);
 
+    router.get('/:id',
+        server.middlewares.ensureAuthenticated,
+        server.controllers.teams.listId);
     router.post('/:id/:userId',
         server.middlewares.ensureAuthenticated,
         server.middlewares.ensureRights(0),

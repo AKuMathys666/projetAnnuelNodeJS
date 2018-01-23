@@ -5,6 +5,7 @@ module.exports = (server) => {
 
     return {
         list,
+        listId,
         update,
         addMember,
         removeMember,
@@ -13,6 +14,11 @@ module.exports = (server) => {
 
     function list(req, res) {
         Team.find()
+            .then(teams => res.send(teams));
+    }
+
+    function listId(req, res) {
+        Team.findById(req.params.id)
             .then(teams => res.send(teams));
     }
 
