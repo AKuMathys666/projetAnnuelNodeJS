@@ -6,6 +6,7 @@ module.exports = (server) => {
 
     return {
         list,
+        listId,
         create,
         remove,
         update
@@ -13,6 +14,11 @@ module.exports = (server) => {
 
     function list(req, res) {
         User.find()
+            .then(users => res.send(users));
+    }
+
+    function listId(req, res) {
+        User.findById(req.params.id)
             .then(users => res.send(users));
     }
 

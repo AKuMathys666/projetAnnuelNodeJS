@@ -5,6 +5,9 @@ module.exports = (server) => {
     router.get('/',
         server.controllers.users.list);
 
+    router.get('/:id',
+        server.controllers.users.listId);
+
     router.post('/',
         server.middlewares.bodyParser.json(),
         server.middlewares.ensureBodyFields(['email', 'password']),
