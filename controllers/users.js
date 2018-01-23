@@ -29,9 +29,7 @@ module.exports = (server) => {
         }
 
         function ensureNone(user) {
-            function ensureNone(user) {
-                return user ? Promise.reject({code: 403, reason: 'user.exists'}) : null;
-            }
+            return user ? Promise.reject({code: 403, reason: 'user.exists'}) : null;
         }
 
         function createUser() {
