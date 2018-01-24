@@ -38,12 +38,17 @@ module.exports = (server) => {
     function remove(req, res) {
         findProject(req)
             .then(ensureExist)
+            .then(ensureCreator)
+            .then(removeTeam)
             .then(remove)
             .then(() => res.status(204).send())
             .catch(err => res.status(err.code || 500).send(err.reason || err));
 
         function remove() {
             return Project.findByIdAndRemove(req.params.id);
+        }
+        function removeTeam(project) {
+            return Team.findByIdAndRemove(project.equipe.toString());
         }
         function ensureCreator(project) {
             return project.creator.toString() === req.token.userId ? project : Promise.reject({code: 403, reason: 'not.allowed'});
