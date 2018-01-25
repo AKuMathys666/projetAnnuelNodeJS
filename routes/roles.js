@@ -7,5 +7,8 @@ module.exports = (server) => {
         server.middlewares.ensureAuthenticated,
         server.controllers.roles.list);
 
+    router.get('/:id',
+        server.middlewares.ensureAuthenticated,
+        server.controllers.roles.listId);
     return router;
 };

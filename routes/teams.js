@@ -11,7 +11,6 @@ module.exports = (server) => {
         server.controllers.teams.listId);
     router.post('/:id/:userId',
         server.middlewares.ensureAuthenticated,
-        server.middlewares.ensureRights(0),
         server.controllers.teams.addMember);
 
     router.post('/role/:userId/:roleId',

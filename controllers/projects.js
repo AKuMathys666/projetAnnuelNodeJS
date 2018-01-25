@@ -38,7 +38,7 @@ module.exports = (server) => {
             function assignRole(team) {
                 return Role.find()
                     .sort('-level')
-                    .then(roles => roles[0])
+                    .then(roles => roles[2])
                     .then(role => {
                         team.roleNumbers.push(role);
                         return team.save();

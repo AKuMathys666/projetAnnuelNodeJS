@@ -2,6 +2,7 @@ module.exports = (server) => {
     const Team = server.models.Team;
     const User = server.models.User;
     const Role = server.models.Role;
+    const Project = server.models.Project;
 
     return {
         list,
@@ -36,6 +37,7 @@ module.exports = (server) => {
         findTeam(req)
             .then(ensureExist)
             .then(instance => team = instance)
+            //.then(ensureCreator)
             .then(findUser)
             .then(ensureExist)
             .then(ensureNotAlreadyMember)
@@ -51,9 +53,22 @@ module.exports = (server) => {
             return team.members.some(member => member === user._id.toString()) ? Promise.reject({code: 403, reason: 'user.already.member'}) : user;
         }
 
+        function ensureCreator(team) {
+            return Project.findById(team.project.toString()).creator.toString() === req.token.userId ? team : Promise.reject({code: 403, reason: 'not.allowed'});
+        }
+
         function addMember(user) {
             team.members.push(user);
-            return team.save();
+            return assignRole(team);
+        }
+        function assignRole(team) {
+            return Role.find()
+                .sort('-level')
+                .then(roles => roles[0])
+                .then(role => {
+                    team.roleNumbers.push(role);
+                    return team.save();
+                });
         }
 
         function findTeam(req) {
