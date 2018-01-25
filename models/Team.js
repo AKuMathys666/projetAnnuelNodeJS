@@ -6,6 +6,10 @@ const TeamSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Project'
     },
+    roleNumbers:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Role'
+    }],
     members:[{
         type: Schema.Types.ObjectId,
         ref: 'User'

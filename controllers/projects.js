@@ -2,6 +2,7 @@ module.exports = (server) => {
     const Project = server.models.Project;
     const User = server.models.User;
     const Team = server.models.Team;
+    const Role = server.models.Role;
 
     return {
         list,
@@ -31,7 +32,18 @@ module.exports = (server) => {
             team.project = project._id;
             team.members.push(userId);
             project.equipe = team._id;
+            assignRole(team);
             return team.save();
+
+            function assignRole(team) {
+                return Role.find()
+                    .sort('-level')
+                    .then(roles => roles[0])
+                    .then(role => {
+                        team.roleNumbers.push(role);
+                        return team.save();
+                    });
+            }
         }
     }
 
