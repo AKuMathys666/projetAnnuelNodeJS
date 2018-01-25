@@ -81,6 +81,7 @@ module.exports = (server) => {
     }
 
     function removeMember(req, res) {
+        let team;
         findTeam(req)
             .then(ensureExist)
             .then(instance => team = instance)
@@ -106,6 +107,10 @@ module.exports = (server) => {
 
         function ensureExist(data) {
             return data ? data : Promise.reject({code: 422, reason: 'unprocessable.entities'});
+        }
+
+        function findTeam(req) {
+            return Team.findById(req.params.id)
         }
     }
 

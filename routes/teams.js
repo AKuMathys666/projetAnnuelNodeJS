@@ -19,7 +19,7 @@ module.exports = (server) => {
 
     router.delete('/:id/:userId',
         server.middlewares.ensureAuthenticated,
-        server.middlewares.ensureRights(0),
+        //server.middlewares.ensureRights(0),
         server.controllers.teams.removeMember);
 
     router.put('/:id',
