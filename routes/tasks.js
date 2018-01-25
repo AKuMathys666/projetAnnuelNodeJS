@@ -6,6 +6,10 @@ module.exports = (server) => {
         server.middlewares.ensureAuthenticated,
         server.controllers.tasks.list);
 
+    router.get('/:idProjet',
+        server.middlewares.ensureAuthenticated,
+        server.controllers.tasks.listId);
+
     router.post('/:idProject',
         server.middlewares.ensureAuthenticated,
         server.middlewares.bodyParser.json(),
