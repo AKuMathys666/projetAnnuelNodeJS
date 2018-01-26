@@ -21,7 +21,7 @@ module.exports = (server) => {
     }
 
     function listId(req, res) {
-        return Task.findById(req.params.id)
+        return Task.find({project:req.params.id})
             .then(tasks => res.send(tasks));
     }
 
